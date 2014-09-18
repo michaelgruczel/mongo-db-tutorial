@@ -115,20 +115,20 @@ db.books.find({year: 2013}).explain()
 
 Now lets work with cursors
 
-db.books.find()
+	db.books.find()
 
 will only return the first elements and it will return a cursor
 
-var aCursor = db.books.find()
-printjson( aCursor [ 0 ] )
-while ( aCursor.hasNext() ) printjson( aCursor.next() )
-db.books.find({year: { $gt: 2012}}).sort({year: 1}).limit(3)
+	var aCursor = db.books.find()
+	printjson( aCursor [ 0 ] )
+	while ( aCursor.hasNext() ) printjson( aCursor.next() )
+	db.books.find({year: { $gt: 2012}}).sort({year: 1}).limit(3)
 
 I am only interested in the name field, so will select the name explicitelly and disable the id field
 
 ### selection of fields
 
-db.books.find({year: { $gt: 2012}}, {name: 1, _id: 0}).sort({year: 1}).limit(3)
+	db.books.find({year: { $gt: 2012}}, {name: 1, _id: 0}).sort({year: 1}).limit(3)
 
 more details can be found under http://docs.mongodb.org/manual/core/read-operations-introduction/
 
@@ -142,11 +142,7 @@ TODO
 
 TODO
 
-## chapter 6: performance tuning
-
-TODO
-
-## chapter 7: backup and restore
+## chapter 6: backup and restore
 
 There are several options:
 
@@ -156,7 +152,7 @@ There are several options:
 
 Short test: Use mongodump to extract data, drop everything and restore it
 
-## chapter 8: Monitoring
+## chapter 7: Monitoring
 
 There are several options for monitoring
 
@@ -169,7 +165,7 @@ There are several options for monitoring
 
 Short test: Play with the tools and answer the following questions: what gives me information about collections sizes, overall load of the database and frequenty used collections. Ignore MMS here.
 
-## chapter 9: transactions and consistency ?
+## chapter 8: transactions and consistency ?
 
 Mongo does not have transaction, but you can define your tradeoff between consisteny and performance.
 
@@ -195,18 +191,18 @@ Anyway, you can not guarantee 'transactions over' several inserts, but there is 
 
 Short test: What is the bes setup regarding write concerns and journal ?
 
-## chapter 10: replication
+## chapter 9: replication
 
 TODO
 
-## chapter 11: sharding
+## chapter 10: sharding
 
 TODO
 
-## chapter 12: Mongodb and java
+## chapter 11: Mongodb and java
 
 
-## chapter 13: open points:
+## chapter 12: open points:
 
 * dropping databases
 * creating and dropping collections
