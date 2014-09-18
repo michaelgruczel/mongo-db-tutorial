@@ -39,6 +39,8 @@ see for more details in http://docs.mongodb.org/manual/reference/sql-comparison/
 
 ## chapter 2: Insert documents
 
+In your vagrant box
+
 connect to mongo: 
 
     mongo
@@ -74,9 +76,63 @@ Lets check wheter the documents were created.
 
 You can see mongo generated a technical id '_id', but you can define it yourself if you want
 
+Short test: TODO
+
 ## chapter 3: find documents
 
-TODO
+### simple reads
+
+First create some testdata. 
+In your vagrant box
+
+    cd /mongotutorial
+    mongo testdata1.js
+    use myBookStore
+    db.books.find({pages: { $gt: 200}}).sort({year: 1}).limit(3)
+
+You have some operators:
+
+* lt means less than
+* gt means greater than
+* pretty make the output more readable
+* or can be used like this $or: [{condition A},{condition B}]
+* and is just a , e.g. ..find({key1:value1, key2:value2})
+
+Short test: TODO
+
+### indices
+
+Now lets check the performance of this query
+
+db.books.find({year: 2013}).explain()
+
+Thats bad, we need an index
+
+db.books.ensureIndex( { year: 1}, {background: true} )
+db.books.find({year: 2013}).explain()
+
+### cursors
+
+Now lets work with cursors
+
+db.books.find()
+
+will only return the first elements and it will return a cursor
+
+var aCursor = db.books.find()
+printjson( aCursor [ 0 ] )
+while ( aCursor.hasNext() ) printjson( aCursor.next() )
+db.books.find({year: { $gt: 2012}}).sort({year: 1}).limit(3)
+
+I am only interested in the name field, so will select the name explicitelly and disable the id field
+
+### selection of fields
+
+db.books.find({year: { $gt: 2012}}, {name: 1, _id: 0}).sort({year: 1}).limit(3)
+
+more details can be found under http://docs.mongodb.org/manual/core/read-operations-introduction/
+
+Short test: TODO
 
 ## chapter 4: update documents
 
@@ -92,15 +148,52 @@ TODO
 
 ## chapter 7: backup and restore
 
-TODO
+There are several options:
+
+- copy files or
+- mongodump/mongorestore
+- MongoDB Management Service
+
+Short test: Use mongodump to extract data, drop everything and restore it
 
 ## chapter 8: Monitoring
 
-TODO
+There are several options for monitoring
+
+* mongostat 
+* mongotop
+* db.stats()
+* db.serverStatus() 
+* rs.status() 
+* MongoDB Management Service (MMS) see https://mms.mongodb.com/
+
+Short test: Play with the tools and answer the following questions: what gives me information about collections sizes, overall load of the database and frequenty used collections. Ignore MMS here.
 
 ## chapter 9: transactions and consistency ?
 
-TODO
+Mongo does not have transaction, but you can define your tradeoff between consisteny and performance.
+
+### Write concerns
+
+'Acknowledged' is the default write concern, that means its added to memory. With a receipt acknowledged write concern, the mongod confirms the receipt of the write operation.
+It is not stored to disk so far.
+
+When mongod returns a successful 'journaled write concern', the data is fully committed to disk and will be available after mongod restarts. With a journaled write concern, the MongoDB acknowledges the write operation only after committing the data to the journal.
+
+There is a Replica Acknowledged, which means its replicated to secondarys, too.
+
+For systems with multiple concurrent readers and writers, MongoDB will allow clients to read the results of a write operation before the write operation returns.
+
+You can define in every call which concerns you want.
+
+*w: 1 Provides acknowledgment of write operations on a standalone
+*w: 4 Aknowledgement from primary and 3 secondary nodes
+*w: "majority"
+*j: 1 journal true/false
+
+Anyway, you can not guarantee 'transactions over' several inserts, but there is a 2 Phase commits approach to have something like a transaction see http://docs.mongodb.org/manual/tutorial/perform-two-phase-commits/
+
+Short test: What is the bes setup regarding write concerns and journal ?
 
 ## chapter 10: replication
 
@@ -110,10 +203,12 @@ TODO
 
 TODO
 
-## chapter12: Mongodb and java
+## chapter 12: Mongodb and java
 
-open points:
+
+## chapter 13: open points:
 
 * dropping databases
 * creating and dropping collections
 * MongoDB Datatypes 
+* MMS
