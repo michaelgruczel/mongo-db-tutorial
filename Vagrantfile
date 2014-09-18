@@ -21,10 +21,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    config.vm.provision :shell, :inline => "sudo apt-get install -y mongodb-10gen"
    config.vm.provision :shell, :inline => "sudo service mongodb start"
 
+   
    # lets install java
    config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
       chef.add_recipe "java"
    end
-
+   config.vm.provision :shell, :inline => "sudo apt-get install -y openjdk-7-jdk"
+   
 end

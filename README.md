@@ -132,15 +132,28 @@ I am only interested in the name field, so will select the name explicitelly and
 
 more details can be found under http://docs.mongodb.org/manual/core/read-operations-introduction/
 
-Short test: TODO
-
 ## chapter 4: update documents
 
-TODO
+Try this
+
+	db.books.update(
+    	{ name: "mongo rocks" },
+    		{
+      		$set: {
+        	year : 2013, authors: "statler and waldorf"
+      		}
+    	}
+	)
 
 ## chapter 5: delete documents
 
-TODO
+Try this commands:
+
+	db.books.remove({})
+	db.books.remove({ name: "mongo rocks" })
+	db.books.remove( { { name: "yellow pages" }, 1 )
+
+Short test: What does they mean ?
 
 ## chapter 6: backup and restore
 
@@ -189,23 +202,27 @@ You can define in every call which concerns you want.
 
 Anyway, you can not guarantee 'transactions over' several inserts, but there is a 2 Phase commits approach to have something like a transaction see http://docs.mongodb.org/manual/tutorial/perform-two-phase-commits/
 
-Short test: What is the bes setup regarding write concerns and journal ?
+Short test: What is the best setup regarding write concerns and journal ?
 
 ## chapter 9: replication
 
 TODO
 
-## chapter 10: sharding
+## chapter 10: Mongodb and java
 
-TODO
+check the Hello World Java class in mongotutorial folder
 
-## chapter 11: Mongodb and java
+    wget http://central.maven.org/maven2/org/mongodb/mongo-java-driver/2.12.3/mongo-java-driver-2.12.3.jar
+	javac -classpath ".:mongo-java-driver-2.12.3.jar" HelloWorld.java
+	java -classpath ".:mongo-java-driver-2.12.3.jar" HelloWorld
 
+Short test: Explain what the class is doing 
 
-## chapter 12: open points:
+## chapter 11: open points:
 
 * dropping databases
 * creating and dropping collections
 * MongoDB Datatypes 
 * aggregation
+* Sharding, you can find more infos at http://docs.mongodb.org/manual/sharding/
 * MMS
