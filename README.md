@@ -104,12 +104,12 @@ Short test: TODO
 
 Now lets check the performance of this query
 
-db.books.find({year: 2013}).explain()
+	db.books.find({year: 2013}).explain()
 
 Thats bad, we need an index
 
-db.books.ensureIndex( { year: 1}, {background: true} )
-db.books.find({year: 2013}).explain()
+	db.books.ensureIndex( { year: 1}, {background: true} )
+	db.books.find({year: 2013}).explain()
 
 ### cursors
 
