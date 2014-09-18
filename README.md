@@ -207,4 +207,5 @@ TODO
 * dropping databases
 * creating and dropping collections
 * MongoDB Datatypes 
+* aggregation
 * MMS
