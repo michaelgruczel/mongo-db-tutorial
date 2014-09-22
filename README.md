@@ -1,12 +1,12 @@
 # mongo db tutorial
 
-# this is a very simple mongo db tutorial by examples
+# this is a very simple mongo-db tutorial by examples
 
 ## chapter 0: How to install Mongo
 
-I will skip this, please read the documentation for your operation system at http://docs.mongodb.org/manual/.
+I will skip this, please read the documentation for your operating system at http://docs.mongodb.org/manual/.
 
-This project contains a vagrant box with mongo and jav (needed fo later examples).
+This project contains a vagrant box with mongo and java (needed for later examples).
 So you need vagrant and virtual box and all you have to do is:
 
 * vagrant up
@@ -76,7 +76,14 @@ Lets check wheter the documents were created.
 
 You can see mongo generated a technical id '_id', but you can define it yourself if you want
 
-Short test: TODO
+Short test: 
+
+* create a database named 'company' with a collection 'employees'
+* create some employees with attributes: first name, lastname, position, date of birth, salary
+* one employee should have the last name Simpson
+* create a query to find Mr simpson
+
+Hint: there are datatypes in mongodb, check http://docs.mongodb.org/manual/core/document/
 
 ## chapter 3: find documents
 
@@ -98,7 +105,11 @@ You have some operators:
 * or can be used like this $or: [{condition A},{condition B}]
 * and is just a , e.g. ..find({key1:value1, key2:value2})
 
-Short test: TODO
+Short test: 
+
+* find the first 10 books, 
+* which have less than 3 pages or which are older then 2012
+* ordered by year (newest books first) and pages (less pages first)
 
 ### indices
 
@@ -124,9 +135,11 @@ will only return the first elements and it will return a cursor
 	while ( aCursor.hasNext() ) printjson( aCursor.next() )
 	db.books.find({year: { $gt: 2012}}).sort({year: 1}).limit(3)
 
-I am only interested in the name field, so will select the name explicitelly and disable the id field
+Short test:  go over all elements in collection books by a cursor and copy all entries in new collection ‚boring‘ which have more than 100 pages
 
 ### selection of fields
+
+I am only interested in the name field, so will select the name explicitelly and disable the id field
 
 	db.books.find({year: { $gt: 2012}}, {name: 1, _id: 0}).sort({year: 1}).limit(3)
 
@@ -206,7 +219,23 @@ Short test: What is the best setup regarding write concerns and journal ?
 
 ## chapter 9: replication
 
-TODO
+A replica set is a group of mongod instances that host the same data set.
+One mongod, the primary, receives all write operations.
+All other instances, secondaries, apply operations from the primary so that they have the same data set.
+
+When a primary does not communicate with the other members (is unavailable)
+of the set for more than 10 seconds, the replica set will attempt to select another member to become the new primary.
+The first secondary that receives a majority of the votes becomes primary.
+
+http://docs.mongodb.org/manual/_images/replica-set-read-write-operations-primary.png
+
+If your replica set has an even number of members, add an arbiter to obtain a majority of votes in an election for primary.
+
+http://docs.mongodb.org/manual/_images/replica-set-primary-with-secondary-and-arbiter.png
+Arbiters do not maintain a data set.
+
+Short test: Try to create a local replica set, shut down the nodes and check how they behave
+
 
 ## chapter 10: Mongodb and java
 

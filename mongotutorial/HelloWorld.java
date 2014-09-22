@@ -17,7 +17,6 @@ public class HelloWorld {
  
     try {
  
-
 	MongoClient mongo = new MongoClient("localhost", 27017);
 	DB db = mongo.getDB("myBookStore");
 	DBCollection table = db.getCollection("books");
@@ -38,9 +37,9 @@ public class HelloWorld {
  
 	// Update
     BasicDBObject query = new BasicDBObject();
-	query.put("name", "mkyong");
+	query.put("name", "java is cool");
 	BasicDBObject newDocument = new BasicDBObject();
-	newDocument.put("name", "mkyong-updated");
+	newDocument.put("name", "scala is cool");
 	BasicDBObject updateObj = new BasicDBObject();
 	updateObj.put("$set", newDocument);
 	table.update(query, updateObj);
