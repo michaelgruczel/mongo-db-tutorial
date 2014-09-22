@@ -2,6 +2,6 @@
 
 a simple example is
 
-mongodump
-db.books.drop()
-mongorestore
+	mongodump
+	db.books.drop()
+	mongorestore
